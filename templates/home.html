@@ -1,54 +1,54 @@
-    {% extends 'base.html' %}
-    {% block content %}
+{% extends 'base.html' %}
 
-   {% for post in featured_posts %}
-   {% if forloop.first %}
-<div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{ post.featured_image.url }});background-blend-mode: overlay;background-size:cover;">
-    <div class="col-md-8 px-0">
-      <h1 class="display-4 font-italic">{{ post.title }}</h1>
-      <p class="lead my-3">{{ post.short_description }}</p>
-      <p class="lead mb-0"><a href="{% url 'blogs' post.slug %}" class="text-white font-weight-bold">Continue reading...</a></p>
+  {% block content %}    
+
+  {% for post in featured_posts %}
+    {% if forloop.first %}
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark" style="background-image: url({{ post.featured_image.url }});background-blend-mode: overlay;background-size:cover;">
+      <div class="col-md-8 px-0">
+        <h1 class="display-4 font-italic">{{ post.title }}</h1>
+        <p class="lead my-3">{{ post.short_description | truncatewords:25 }}</p>
+        <p class="lead mb-0"><a href="{% url 'blogs' post.slug  %}" class="text-white font-weight-bold">Continue reading...</a></p>
+      </div>
     </div>
-  </div>
-  {% endif %}
+    {% endif %}
   {% endfor %}
 
   <!-- Featured Posts -->
-   <h3 class="text-uppercase text-warning" style= "letter-spacing: 2px;">Featured Posts</h3>
-    <div class="row mb-2">
+  <h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Featured Posts</h3>
+  <div class="row mb-2">
     {% for post in featured_posts %}
-    {% if not forloop.first %}
+      {% if not forloop.first %}
     <div class="col-md-6">
       <div class="card border-0" >
         <div class="card-body">
-          <h3><a href="{% url 'blogs' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
-          <small class="mb-1 text-muted">{{ post.created_at |timesince}} ago | {{ post.author }}</small>
-          <p class="card-text">{{ post.short_description | truncatewords:50 }}</p>
+          <h3><a href="{% url 'blogs' post.slug  %}" class="text-dark">{{ post.title }}</a></h3>
+          <small class="mb-1 text-muted">{{ post.created_at | timesince }} ago | {{ post.author }}</small>
+          <p class="card-text">{{ post.short_description | truncatewords:25 }}</p>
         </div>
       </div>
-    </div> 
-    {% endif %}
-    {% endfor %}
     </div>
-
-   <!-- Recent Articles -->  
-<h3 class="text-uppercase text-warning" style= "letter-spacing: 2px;">Recent Articles</h3>
-     <main role="main" class="container">
-    <div class="row mb-2">
-    {% for post in featured_posts %}
+      {% endif %}
+    {% endfor %}
     
-    <div class="col-md-6">
-      <div class="card border-0" >
-        <div class="card-body">
-          <h3><a href="{% url 'blogs' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
-          <small class="mb-1 text-muted">{{ post.created_at |timesince}} ago | {{ post.author }}</small>
-          <p class="card-text">{{ post.short_description | truncatewords:50 }}</p>
-        </div>
-      </div>
-    </div> 
-    {% endfor %}
-    </div>
+  </div>
 
+
+  <!-- Recent Articles -->
+  <h3 class="text-uppercase text-warning" style="letter-spacing: 2px;">Recent Articles</h3>
+  <main role="main" class="container p-0">
+    <div class="row">
+      <div class="col-md-8 blog-main">
+        {% for post in posts %}
+        <div class="card border-0" >
+          <div class="card-body">
+            <h3> <a href="{% url 'blogs' post.slug  %}" class="text-dark">{{ post.title }}</a></h3>
+            <small class="mb-1 text-muted">{{ post.created_at | timesince }} ago | {{ post.author }}</small>
+            <p class="card-text">{{ post.short_description | truncatewords:25 }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
       <!-- /.blog-main -->
 
       <aside class="col-md-4 blog-sidebar">
@@ -56,7 +56,6 @@
           <h4 class="font-italic">{{ about.about_heading }}</h4>
           <p class="mb-0">{{ about.about_description }}</p>
         </div>
-            <!-- Social Links -->
 
         {% if social_links %}
         <div class="p-3">
@@ -75,4 +74,5 @@
   </main><!-- /.container -->
 
 </div>
+
 {% endblock %}
